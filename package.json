@@ -1,0 +1,35 @@
+{
+  "name": "apitests",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "allureGenerate": "allure generate --clean",
+    "allureOpen": "allure open",
+    "api": "export NODE_ENV=dev && export ENVIRONMENT=staging && npx playwright test --grep @API",
+    "api1": "export ENVIRONMENT=staging && npx playwright test --grep @API",
+    "debug": "npx playwright test --ui",
+    "test": "npx playwright test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vasyen87-cyber/apiTests.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vasyen87-cyber/apiTests/issues"
+  },
+  "homepage": "https://github.com/vasyen87-cyber/apiTests#readme",
+  "description": "",
+  "devDependencies": {
+    "@faker-js/faker": "^8.4.1",
+    "@playwright/test": "^1.46.1",
+    "@types/node": "^22.5.0",
+    "axios": "^1.7.7",
+    "allure-playwright": "^3.0.0",
+    "config": "^3.3.12",
+    "dotenv": "^16.4.5",
+    "os": "^0.1.2"
+  }
+}

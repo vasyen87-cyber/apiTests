@@ -1,0 +1,20 @@
+
+# Playwright
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
+
+#Allure
+/allure-report
+/allure-results
+
+#Environment
+.DS_Store
+.playwright.env
+
+# idea
+/.idea/
+
