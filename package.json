@@ -8,7 +8,8 @@
     "api": "export NODE_ENV=dev && export ENVIRONMENT=staging && npx playwright test --grep @API",
     "api1": "export ENVIRONMENT=staging && npx playwright test --grep @API",
     "debug": "npx playwright test --ui",
-    "test": "npx playwright test"
+    "test": "npx playwright test",
+    "allureFile": "npx allure awesome ./allure-results --single-file"
   },
   "repository": {
     "type": "git",
