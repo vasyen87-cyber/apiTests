@@ -9,12 +9,15 @@
     "api1": "export ENVIRONMENT=staging && npx playwright test --grep @API",
     "debug": "npx playwright test --ui",
     "test": "npx playwright test",
-    "allureFile": "npx allure awesome ./allure-results --single-file"
+    "reportAwesome": "npx allure awesome ./allure-results --single-file",
+    "reportClassic": "npx allure classic ./allure-results --single-file",
+    "report": "allure generate ./allure-results -o ./allure-report && allure open ./allure-report"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/vasyen87-cyber/apiTests.git"
   },
+  "private": true,
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -32,5 +35,8 @@
     "config": "^3.3.12",
     "dotenv": "^16.4.5",
     "os": "^0.1.2"
+  },
+  "dependencies": {
+    "allure": "^3.0.0-beta.10"
   }
 }

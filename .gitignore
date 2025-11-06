@@ -10,6 +10,7 @@ node_modules/
 #Allure
 /allure-report
 /allure-results
+/allure
 
 #Environment
 .DS_Store
