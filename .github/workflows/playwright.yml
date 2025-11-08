@@ -56,14 +56,13 @@ jobs:
           allure_history: allure-history
           keep_reports: 20
       # Деплоим отчёт
-#      - name: deploy report
-#        if: always()
-#        uses: peaceiris/actions-gh-pages@v4
-#        with:
-#          github_token: ${{ secrets.GITHUB_TOKEN }}
-#          publish_branch: gh-pages
-#          publish_dir: allure-history
-#
+      - name: deploy report
+        if: always()
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ github.token }}
+          publish_dir: allure-history
+
 #      - name: Install allurectl
 #        run: |
 #          curl -o allurectl -L "https://github.com/allure-framework/allurectl/releases/latest/download/allurectl_linux_amd64"
