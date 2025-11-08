@@ -60,7 +60,7 @@ jobs:
         if: always()
         uses: peaceiris/actions-gh-pages@v4
         with:
-          github_token: ${{ github.token }}
+          github_token: ${{ secret.GITHUB_TOKEN }}
           publish_dir: allure-history
 
 #      - name: Install allurectl
