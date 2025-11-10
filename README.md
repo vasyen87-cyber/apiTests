@@ -78,6 +78,9 @@ Pull Request в main/master
 
 ### 🔧 Allure TestOps
 [Ссылка на проект](https://allure.autotests.cloud/project/4984/)
+<p text-align="center">
+<img title="Allure TestOps" src="media/testOps.png" alt="Пример отображения" />
+</p>
 
 ## Уведомления
 
