@@ -8,7 +8,7 @@ export class ArticlePage {
         this.chooseBody = page.getByRole('textbox', { name: 'Write your article (in' });
         this.chooseTags = page.getByRole('textbox', { name: 'Enter tags' });
         this.articlePublish = page.getByText('Publish Article');
-        this.articletag = page.getByRole('main');
+        this.articleComment = page.getByRole('main');
         this.articleTitle = page.getByRole('heading');
         this.articleBody = page.getByRole('paragraph');
         //update

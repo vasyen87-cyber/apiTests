@@ -82,14 +82,21 @@ test.describe('Регистрация', () => {
             .addPassword()
             .generate();
 
+        const article = new ArticleBuilder()
+            .addTitle()
+            .addDescription()
+            .addBody()
+            .addTags()
+            .generate();
+
         let app = new App(page);
         const articleName = faker.word.words();
         await app.main.gotoRegister();
         await app.register.register(user);
-        await app.article.createNewArticle(articleName);
+        await app.article.createNewArticle(article);
         await app.article.newPostComment();
 
-        await expect(app.article.articleCheck).toContainText('новый коммент');
+        await expect(app.article.articleComment).toContainText('новый коммент');
     });
 
     test('Открытие моей табы', { tag: '@UI' },async ({page}) => {
