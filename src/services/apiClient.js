@@ -1,4 +1,4 @@
-import { ChallengerService, ChallengesService, TodosService } from './index';
+import { ChallengerService, ChallengesService, TodosService, TodoService } from './index';
 
 export class ApiClient {
     constructor (options) {
@@ -12,6 +12,7 @@ export class ApiClient {
         this.challenger = new ChallengerService(mergeOptions);
         this.challenges = new ChallengesService(mergeOptions);
         this.todos = new TodosService(mergeOptions);
+        this.todo = new TodoService(mergeOptions);
     };
 
     static async loginAs(){

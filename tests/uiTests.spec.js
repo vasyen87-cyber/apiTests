@@ -1,120 +1,127 @@
 import { test, expect } from '@playwright/test';
 import { faker } from '@faker-js/faker';
-import { MainPage, RegisterPage, ArticlePage} from '../src/pages/index';
-
-const URL = 'https://realworld.qa.guru/';
+import { UserBuilder } from '../src/helpers/builders';
+import { ArticleBuilder } from '../src/helpers/builders';
+import { App } from '../src/pages/app.pages';
 
 test.describe('Регистрация', () => {
     test.beforeEach(async ({ page }) => {
-        await page.goto(URL);
+        let app = new App(page);
+        await app.main.visit();
     });
 
     test('Пользователь может зарегистрироваться с навигацией через клавиатуру', async ({page}) => {
-        const user = {
-            name: faker.person.fullName(),
-            email: faker.internet.email(),
-            password: faker.internet.password(),
-        };
 
-        const mainPage = new MainPage(page);
-        const registerPage = new RegisterPage(page);
+        const user = new UserBuilder()
+            .addName()
+            .addEmail()
+            .addPassword()
+            .generate();
 
-        await mainPage.gotoRegister();
-        await registerPage.register(user);
-        await expect(registerPage.profileNameField).toContainText(
-            user.name,
-        );
+        let app = new App(page);
+        await app.main.gotoRegister();
+        await app.register.register(user);
+
+        await expect(app.register.profileNameField).toContainText(user.name);
     });
 
-    test('New article',  { tag: '@UI' }, async ({page}) => {
-        const user = {
-            name: faker.person.fullName(),
-            email: faker.internet.email(),
-            password: faker.internet.password(),
-        };
+    test('Создание статьи',  { tag: '@UI' }, async ({page}) => {
+
+        const user = new UserBuilder()
+            .addName()
+            .addEmail()
+            .addPassword()
+            .generate();
+
+        const article = new ArticleBuilder()
+            .addTitle()
+            .addDescription()
+            .addBody()
+            .addTags()
+            .generate();
+
+        let app = new App(page);
+        await app.main.gotoRegister();
+        await app.register.register(user);
+        await app.article.createNewArticle(article);
+
+        await expect(app.article.articleTitle).toContainText(article.title);
+        await expect(app.article.articleBody).toContainText(article.body);
+    });
+
+    test('Обновление статьи',{ tag: '@UI' },async ({page}) => {
+
+        const user = new UserBuilder()
+            .addName()
+            .addEmail()
+            .addPassword()
+            .generate();
+
+        const article = new ArticleBuilder()
+            .addTitle()
+            .addDescription()
+            .addBody()
+            .addTags()
+            .generate();
+
+        let app = new App(page);
+        await app.main.gotoRegister();
+        await app.register.register(user);
+        await app.article.createNewArticle(article);
+        await app.article.updateArticle(article);
+
+        await expect(app.article.articleTitle).toContainText(article.title);
+        await expect(app.article.articleBody).toContainText(article.body);
+    });
+
+    test('Добавление комментария',{ tag: '@UI' }, async ({page}) => {
+
+        const user = new UserBuilder()
+            .addName()
+            .addEmail()
+            .addPassword()
+            .generate();
+
+        let app = new App(page);
         const articleName = faker.word.words();
+        await app.main.gotoRegister();
+        await app.register.register(user);
+        await app.article.createNewArticle(articleName);
+        await app.article.newPostComment();
 
-        const mainPage = new MainPage(page);
-        const registerPage = new RegisterPage(page);
-        const articlePage = new ArticlePage(page);
-
-        await mainPage.gotoRegister();
-        await registerPage.register(user);
-        await articlePage.createNewArticle(articleName);
-        await expect(articlePage.articleCheck).toContainText(articleName);
+        await expect(app.article.articleCheck).toContainText('новый коммент');
     });
 
-    test('Update article',{ tag: '@UI' },async ({page}) => {
-        const user = {
-            name: faker.person.fullName(),
-            email: faker.internet.email(),
-            password: faker.internet.password(),
-        };
-        const articleName = faker.word.words();
+    test('Открытие моей табы', { tag: '@UI' },async ({page}) => {
 
-        const mainPage = new MainPage(page);
-        const registerPage = new RegisterPage(page);
-        const articlePage = new ArticlePage(page);
+        const user = new UserBuilder()
+            .addName()
+            .addEmail()
+            .addPassword()
+            .generate();
 
-        await mainPage.gotoRegister();
-        await registerPage.register(user);
-        await articlePage.createNewArticle(articleName);
-        await articlePage.updateArticle(articleName);
-        await expect(articlePage.articleCheck).toContainText(articleName);
+        let app = new App(page);
+        await app.main.gotoRegister();
+        await app.register.register(user);
+        await app.article.goToMyTab();
+
+        await expect(app.article.myTab).toBeVisible();
     });
 
+    test('Открытие фаворитной табы',{ tag: '@UI' }, async ({page}) => {
 
-    test('post comment',{ tag: '@UI' }, async ({page}) => {
-        const user = {
-            name: faker.person.fullName(),
-            email: faker.internet.email(),
-            password: faker.internet.password(),
-        };
-        const articleName = faker.word.words();
+        const user = new UserBuilder()
+            .addName()
+            .addEmail()
+            .addPassword()
+            .generate();
 
-        const mainPage = new MainPage(page);
-        const registerPage = new RegisterPage(page);
-        const articlePage = new ArticlePage(page);
+        let app = new App(page);
+        await app.main.gotoRegister();
+        await app.register.register(user);
+        await app.article.goToFavoriteTab();
 
-        await mainPage.gotoRegister();
-        await registerPage.register(user);
-        await articlePage.createNewArticle(articleName);
-        await articlePage.newPostComment();
-        await expect(articlePage.articleCheck).toContainText('новый коммент');
-    });
-
-    test('My tab', { tag: '@UI' },async ({page}) => {
-        const user = {
-            name: faker.person.fullName(),
-            email: faker.internet.email(),
-            password: faker.internet.password(),
-        };
-
-        const mainPage = new MainPage(page);
-        const registerPage = new RegisterPage(page);
-        const articlePage = new ArticlePage(page);
-
-        await mainPage.gotoRegister();
-        await registerPage.register(user);
-        await articlePage.goToMyTab();
-        await expect(articlePage.myTab).toBeVisible();
-    });
-
-    test('Favorite tab',{ tag: '@UI' }, async ({page}) => {
-        const user = {
-            name: faker.person.fullName(),
-            email: faker.internet.email(),
-            password: faker.internet.password(),
-        };
-
-        const mainPage = new MainPage(page);
-        const registerPage = new RegisterPage(page);
-        const articlePage = new ArticlePage(page);
-
-        await mainPage.gotoRegister();
-        await registerPage.register(user);
-        await articlePage.goToFavoriteTab()
-        await expect(articlePage.favoriteTab).toBeVisible();
+        await expect(app.article.favoriteTab).toBeVisible();
     });
 });
 

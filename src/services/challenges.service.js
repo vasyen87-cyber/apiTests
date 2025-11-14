@@ -1,13 +1,12 @@
 import axios from "axios";
 
-let URL = 'https://apichallenges.herokuapp.com/';
-
 export class ChallengesService {
     constructor (options){
         this.options = options;
+        this.baseURL = options.URL || 'https://apichallenges.herokuapp.com/';
     }
     async get(headers){
-        const response = await axios.get(`${URL}challenges`, {headers: headers});
-        return response;
+        const response1 = await axios.get(`${this.baseURL}challenges`, {headers: headers});
+        return response1;
     }
 }

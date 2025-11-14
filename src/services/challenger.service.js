@@ -1,14 +1,13 @@
 import axios from "axios";
 
-let URL = 'https://apichallenges.herokuapp.com/';
-
 export class ChallengerService {
     constructor (options){
         this.options = options;
+        this.baseURL = options.URL || 'https://apichallenges.herokuapp.com/';
     }
 
     async post(){
-        const response = await axios.post(`${URL}challenger`);
-        return response;
+        const response1 = await axios.post(`${this.baseURL}challenger`);
+        return response1;
     }
 }
