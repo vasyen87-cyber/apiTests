@@ -1,4 +1,4 @@
-import axios from "axios";
+import {request} from "@playwright/test";
 
 export class ChallengerService {
     constructor (options){
@@ -6,8 +6,13 @@ export class ChallengerService {
         this.baseURL = options.URL || 'https://apichallenges.herokuapp.com/';
     }
 
-    async post(){
-        const response1 = await axios.post(`${this.baseURL}challenger`);
+    async post(token){
+        const apiRequest = await request.newContext();
+        const response1 = await apiRequest.post(`${this.baseURL}challenger`, {
+            headers: {
+                "x-challenger": token,
+            },
+        });
         return response1;
     }
 }

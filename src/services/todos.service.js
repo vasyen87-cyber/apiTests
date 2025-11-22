@@ -1,4 +1,3 @@
-import axios from "axios";
 import { request } from '@playwright/test';
 import { test } from "@playwright/test";
 
@@ -10,7 +9,8 @@ export class TodosService {
 
     async getTodos(token) {
         return test.step("Получить список todo get /todos", async () => {
-            const data1 = await axios.get(`${this.baseURL}todos`, {
+            const apiRequest = await request.newContext();
+            const data1 = await apiRequest.get(`${this.baseURL}todos`, {
                 headers: {
                     "x-challenger": token,
                 },
@@ -21,7 +21,8 @@ export class TodosService {
 
     async getTodosById(token) {
         return test.step("Получить todos/{id}", async () => {
-            const data1 = await axios.get(`${this.baseURL}todos/5`, {
+            const apiRequest = await request.newContext();
+            const data1 = await apiRequest.get(`${this.baseURL}todos/5`, {
                 headers: {
                     "x-challenger": token,
                 },
@@ -44,7 +45,8 @@ export class TodosService {
 
     async getTodosByIdWithFilter(token) {
         return test.step("Получить список todo GET /todos ?filter", async () => {
-            const data1 = await axios.get(`${this.baseURL}todos?doneStatus=true`, {
+            const apiRequest = await request.newContext();
+            const data1 = await apiRequest.get(`${this.baseURL}todos?doneStatus=true`, {
                 headers: {
                     "x-challenger": token,
                 },

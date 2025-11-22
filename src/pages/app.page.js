@@ -1,4 +1,4 @@
-import { ArticlePage, MainPage, RegisterPage, BasePage } from './index';
+import { ArticlePage, MainPage, RegisterPage } from './index';
 
 export class App {
     constructor(page) {

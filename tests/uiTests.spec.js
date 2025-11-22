@@ -1,16 +1,15 @@
-import { test, expect } from '@playwright/test';
-import { faker } from '@faker-js/faker';
+import { expect } from '@playwright/test';
 import { UserBuilder } from '../src/helpers/builders';
 import { ArticleBuilder } from '../src/helpers/builders';
-import { App } from '../src/pages/app.pages';
+import {test} from "../src/fixtures/fixture";
 
 test.describe('Регистрация', () => {
-    test.beforeEach(async ({ page }) => {
-        let app = new App(page);
-        await app.main.visit();
+    test.beforeEach(async ({ app }) => {
+
+        await app.main.gotoRegister();
     });
 
-    test('Пользователь может зарегистрироваться с навигацией через клавиатуру', async ({page}) => {
+    test('Пользователь может зарегистрироваться с навигацией через клавиатуру', async ({app}) => {
 
         const user = new UserBuilder()
             .addName()
@@ -18,14 +17,13 @@ test.describe('Регистрация', () => {
             .addPassword()
             .generate();
 
-        let app = new App(page);
         await app.main.gotoRegister();
         await app.register.register(user);
 
         await expect(app.register.profileNameField).toContainText(user.name);
     });
 
-    test('Создание статьи',  { tag: '@UI' }, async ({page}) => {
+    test('Создание статьи',  { tag: '@UI' }, async ({app}) => {
 
         const user = new UserBuilder()
             .addName()
@@ -40,16 +38,17 @@ test.describe('Регистрация', () => {
             .addTags()
             .generate();
 
-        let app = new App(page);
         await app.main.gotoRegister();
         await app.register.register(user);
         await app.article.createNewArticle(article);
 
         await expect(app.article.articleTitle).toContainText(article.title);
         await expect(app.article.articleBody).toContainText(article.body);
+
+        await expect(app.article.articleTags).toContainText(article.tags);
     });
 
-    test('Обновление статьи',{ tag: '@UI' },async ({page}) => {
+    test('Обновление статьи',{ tag: '@UI' },async ({app}) => {
 
         const user = new UserBuilder()
             .addName()
@@ -64,7 +63,6 @@ test.describe('Регистрация', () => {
             .addTags()
             .generate();
 
-        let app = new App(page);
         await app.main.gotoRegister();
         await app.register.register(user);
         await app.article.createNewArticle(article);
@@ -72,9 +70,10 @@ test.describe('Регистрация', () => {
 
         await expect(app.article.articleTitle).toContainText(article.title);
         await expect(app.article.articleBody).toContainText(article.body);
+        await expect(app.article.articleTags).toContainText(article.tags);
     });
 
-    test('Добавление комментария',{ tag: '@UI' }, async ({page}) => {
+    test('Добавление комментария',{ tag: '@UI' }, async ({app}) => {
 
         const user = new UserBuilder()
             .addName()
@@ -89,17 +88,18 @@ test.describe('Регистрация', () => {
             .addTags()
             .generate();
 
-        let app = new App(page);
-        const articleName = faker.word.words();
+        const comment = new ArticleBuilder()
+            .addText()
+
         await app.main.gotoRegister();
         await app.register.register(user);
         await app.article.createNewArticle(article);
-        await app.article.newPostComment();
+        await app.article.newPostComment(comment);
 
-        await expect(app.article.articleComment).toContainText('новый коммент');
+        await expect(app.article.articleComment).toContainText(comment.commentText);
     });
 
-    test('Открытие моей табы', { tag: '@UI' },async ({page}) => {
+    test('Открытие моей табы', { tag: '@UI' },async ({app}) => {
 
         const user = new UserBuilder()
             .addName()
@@ -107,7 +107,6 @@ test.describe('Регистрация', () => {
             .addPassword()
             .generate();
 
-        let app = new App(page);
         await app.main.gotoRegister();
         await app.register.register(user);
         await app.article.goToMyTab();
@@ -115,7 +114,7 @@ test.describe('Регистрация', () => {
         await expect(app.article.myTab).toBeVisible();
     });
 
-    test('Открытие фаворитной табы',{ tag: '@UI' }, async ({page}) => {
+    test('Открытие фаворитной табы',{ tag: '@UI' }, async ({app}) => {
 
         const user = new UserBuilder()
             .addName()
@@ -123,7 +122,6 @@ test.describe('Регистрация', () => {
             .addPassword()
             .generate();
 
-        let app = new App(page);
         await app.main.gotoRegister();
         await app.register.register(user);
         await app.article.goToFavoriteTab();

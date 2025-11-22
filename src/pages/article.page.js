@@ -1,7 +1,8 @@
-export class ArticlePage {
+import { BasePage } from './base.page';
+
+export class ArticlePage extends BasePage{
     constructor(page) {
-        // техническое описание страницы
-        //create
+        super(page);
         this.newArticle = page.getByRole('link', { name: ' New Article' });
         this.chooseTitle = page.getByRole('textbox', { name: 'Article Title' });
         this.chooseDescription = page.getByRole('textbox', { name: 'What\'s this article about?' });
@@ -11,6 +12,7 @@ export class ArticlePage {
         this.articleComment = page.getByRole('main');
         this.articleTitle = page.getByRole('heading');
         this.articleBody = page.getByRole('paragraph');
+        this.articleTags = page.locator('.tag-list');
         //update
         this.editArticle = page.getByRole('link', { name: ' Edit Article' });
         this.articleUpdate = page.getByRole('button', { name: 'Update Article' });
@@ -51,9 +53,10 @@ export class ArticlePage {
         await this.articleUpdate.click();
     }
 
-    async newPostComment() {
+    async newPostComment(comment) {
+        const {commentText} = comment
         await this.writeComment.click();
-        await this.writeComment.fill('новый коммент');
+        await this.writeComment.fill(commentText);
         await this.postComment.click();
     }
 

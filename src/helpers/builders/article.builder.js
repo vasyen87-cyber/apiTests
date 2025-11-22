@@ -11,13 +11,18 @@ export class ArticleBuilder {
         return this;
     }
 
-    addBody(symbol = 10) {
-        this.body = faker.word.noun({ length: symbol });
+    addBody() {
+        this.body = faker.lorem.paragraph();
         return this;
     }
 
-    addTags(symbol = 10) {
-        this.tags = faker.word.noun({ length: symbol });
+    addTags() {
+        this.tags = faker.word.noun(10);
+        return this;
+    }
+
+    addText() {
+        this.commentText = faker.word.noun(10);
         return this;
     }
 

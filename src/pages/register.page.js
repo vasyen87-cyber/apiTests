@@ -1,7 +1,8 @@
+import { BasePage } from './base.page';
 
-export class RegisterPage {
+export class RegisterPage extends BasePage {
     constructor(page) {
-        // техническое описание страницы
+        super(page);
         this.emailInput = page.getByRole('textbox', { name: 'Email' });
         this.nameInput = page.getByRole('textbox', { name: 'Your Name' });
         this.passwordInput = page.getByRole('textbox', { name: 'Password' });
